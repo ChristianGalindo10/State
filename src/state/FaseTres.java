@@ -14,9 +14,9 @@ import javax.swing.JLabel;
 
 /**
  *
- * @author estudiantes
+ * @author USUARIO
  */
-public class FaseUno implements Estado {
+public class FaseTres implements Estado {
 
     Thread comprobante;
 
@@ -24,35 +24,32 @@ public class FaseUno implements Estado {
     public void transformar(JLabel lbl, Personaje personaje, JButton btn, JLabel lbl2) {
         Contador contador = new Contador(personaje);
         contador.start();
-        ImageIcon img = new ImageIcon(getClass().getResource("/img/200w.gif"));
-        Image imgEscalada = img.getImage().getScaledInstance(lbl.getWidth(),
-                lbl.getHeight(), Image.SCALE_DEFAULT);
-        ImageIcon iconoEscalado = new ImageIcon(imgEscalada);
-        lbl.setIcon(iconoEscalado);
-        personaje.setPoder(40);
-        personaje.setVelocidad(50);
-
         hilo(personaje, btn, lbl2);
-        /*
-        if (personaje.getEnergia() > 90) {
-            personaje.setTransformar(true);
-        } else {
-            personaje.setTransformar(false);
-        }*/
+
+        if (personaje.isTransformar()) {
+            personaje.setPoder(90);
+            personaje.setVelocidad(90);
+            ImageIcon img = new ImageIcon(getClass().getResource("/img/203W.gif"));
+            Image imgEscalada = img.getImage().getScaledInstance(lbl.getWidth(),
+                    lbl.getHeight(), Image.SCALE_DEFAULT);
+            ImageIcon iconoEscalado = new ImageIcon(imgEscalada);
+            lbl.setIcon(iconoEscalado);
+
+        }
     }
 
     public void hilo(Personaje personaje, JButton btn, JLabel lbl2) {
         this.comprobante = new Thread(new Runnable() {
             @Override
             public void run() {
+                String text = "<html><strong>" + personaje.getNombre() + " Fase 3: <br>"
+                        + "Velocidad: " + personaje.getPoder() + "<br>"
+                        + "Poder: " + personaje.getPoder() + "<br>"
+                        + "Energia: " + personaje.getEnergia()
+                        + "</strong></html>";
+                lbl2.setText(text);
                 while (true) {
-                    String text = "<html><strong>" + personaje.getNombre() + " Fase 1: <br>"
-                            + "Velocidad: " + personaje.getPoder() + "<br>"
-                            + "Poder: " + personaje.getPoder() + "<br>"
-                            + "Energia: " + personaje.getEnergia()
-                            + "</strong></html>";
-                    lbl2.setText(text);
-                    if (personaje.getEnergia() > 35) {
+                    if (personaje.getEnergia() > 70) {
                         personaje.setTransformar(true);
                         System.out.println(personaje.getEnergia());
                         System.out.println(personaje.isTransformar());

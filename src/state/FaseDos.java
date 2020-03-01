@@ -16,7 +16,7 @@ import javax.swing.JLabel;
  *
  * @author estudiantes
  */
-public class FaseUno implements Estado {
+public class FaseDos implements Estado {
 
     Thread comprobante;
 
@@ -24,21 +24,19 @@ public class FaseUno implements Estado {
     public void transformar(JLabel lbl, Personaje personaje, JButton btn, JLabel lbl2) {
         Contador contador = new Contador(personaje);
         contador.start();
-        ImageIcon img = new ImageIcon(getClass().getResource("/img/200w.gif"));
-        Image imgEscalada = img.getImage().getScaledInstance(lbl.getWidth(),
-                lbl.getHeight(), Image.SCALE_DEFAULT);
-        ImageIcon iconoEscalado = new ImageIcon(imgEscalada);
-        lbl.setIcon(iconoEscalado);
-        personaje.setPoder(40);
-        personaje.setVelocidad(50);
+        hilo(personaje, btn,lbl2);
 
-        hilo(personaje, btn, lbl2);
-        /*
-        if (personaje.getEnergia() > 90) {
-            personaje.setTransformar(true);
-        } else {
-            personaje.setTransformar(false);
-        }*/
+        if (personaje.isTransformar()) {
+            personaje.setPoder(70);
+            personaje.setVelocidad(72);
+            ImageIcon img = new ImageIcon(getClass().getResource("/img/201w.gif"));
+            Image imgEscalada = img.getImage().getScaledInstance(lbl.getWidth(),
+                    lbl.getHeight(), Image.SCALE_DEFAULT);
+            ImageIcon iconoEscalado = new ImageIcon(imgEscalada);
+            lbl.setIcon(iconoEscalado);
+        }
+        
+    
     }
 
     public void hilo(Personaje personaje, JButton btn, JLabel lbl2) {
@@ -46,13 +44,13 @@ public class FaseUno implements Estado {
             @Override
             public void run() {
                 while (true) {
-                    String text = "<html><strong>" + personaje.getNombre() + " Fase 1: <br>"
+                    String text = "<html><strong>" + personaje.getNombre() + " Fase 2: <br>"
                             + "Velocidad: " + personaje.getPoder() + "<br>"
                             + "Poder: " + personaje.getPoder() + "<br>"
                             + "Energia: " + personaje.getEnergia()
                             + "</strong></html>";
                     lbl2.setText(text);
-                    if (personaje.getEnergia() > 35) {
+                    if (personaje.getEnergia() > 50) {
                         personaje.setTransformar(true);
                         System.out.println(personaje.getEnergia());
                         System.out.println(personaje.isTransformar());
@@ -65,13 +63,14 @@ public class FaseUno implements Estado {
             }
         });
         this.comprobante.start();
-         btn.addActionListener(new ActionListener(){
+        btn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 comprobante.stop();
             }
             
         });
+        
         if (!personaje.isTransformar()) {
             this.comprobante.stop();
         }

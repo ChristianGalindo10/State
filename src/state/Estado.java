@@ -5,6 +5,7 @@
  */
 package state;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 
 /**
@@ -12,5 +13,5 @@ import javax.swing.JLabel;
  * @author estudiantes
  */
 public interface Estado {
-    public void transformar(JLabel lbl, Personaje personaje);
+    public void transformar(JLabel lbl, Personaje personaje, JButton btn, JLabel lbl2);
 }

@@ -8,6 +8,7 @@ package state;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,6 +18,9 @@ import javax.swing.JOptionPane;
 public class Frame extends javax.swing.JFrame {
 
     private Thread anima;
+    private Contexto contexto;
+    private Personaje p1;
+    private int count = 0;
 
     /**
      * Creates new form Frame
@@ -24,12 +28,18 @@ public class Frame extends javax.swing.JFrame {
     public Frame() {
         initComponents();
         setLocationRelativeTo(null);
-        ImageIcon img = new ImageIcon(getClass().getResource("/img/200w.gif"));
-        Image imgEscalada = img.getImage().getScaledInstance(this.LblImagen.getWidth(),
-                this.LblImagen.getHeight(), Image.SCALE_DEFAULT);
-        ImageIcon iconoEscalado = new ImageIcon(imgEscalada);
-        this.LblImagen.setIcon(iconoEscalado);
+        p1 = new Personaje("Goku", 100, 40, 40, true);
+        contexto = new Contexto(this.LblImagen, p1,this.BtnLeer,this.jLabel1);
+        if(!p1.isTransformar()){
+            this.BtnLeer.setEnabled(false);
+        }
+        //contexto.SSJ2(this.LblImagen,p1);
         //this.LblImagen.setIcon(new ImageIcon(getClass().getResource("/img/200w.gif")));
+    }
+
+
+    public JLabel getLblImagen() {
+        return LblImagen;
     }
 
     /*
@@ -61,9 +71,9 @@ public class Frame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        TextCadena = new javax.swing.JTextField();
         LblImagen = new javax.swing.JLabel();
         BtnLeer = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,6 +84,8 @@ public class Frame extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("jLabel1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -81,10 +93,10 @@ public class Frame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(BtnLeer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(BtnLeer, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(TextCadena, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(LblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
@@ -92,9 +104,9 @@ public class Frame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TextCadena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(LblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(LblImagen, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(32, 32, 32)
                 .addComponent(BtnLeer)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -105,11 +117,14 @@ public class Frame extends javax.swing.JFrame {
 
     private void BtnLeerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLeerActionPerformed
         //hilo();
-        ImageIcon img = new ImageIcon(getClass().getResource("/img/201w.gif"));
-        Image imgEscalada = img.getImage().getScaledInstance(this.LblImagen.getWidth(),
-                this.LblImagen.getHeight(), Image.SCALE_DEFAULT);
-        ImageIcon iconoEscalado = new ImageIcon(imgEscalada);
-        this.LblImagen.setIcon(iconoEscalado);
+        //contexto.SSJ2();
+        count++;
+        if(count==1){
+            contexto.SSJ2(this.LblImagen,p1,this.BtnLeer,this.jLabel1);
+        }else{
+            contexto.SSJ3(this.LblImagen,p1,this.BtnLeer,this.jLabel1);
+        }
+        
     }//GEN-LAST:event_BtnLeerActionPerformed
 
     /**
@@ -144,8 +159,7 @@ public class Frame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Frame().setVisible(true);
-                Personaje p1 = new Personaje("Goku",100);
-                Contexto contexto = new Contexto();
+
             }
         });
     }
@@ -153,6 +167,6 @@ public class Frame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnLeer;
     private javax.swing.JLabel LblImagen;
-    private javax.swing.JTextField TextCadena;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
